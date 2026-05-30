@@ -1,0 +1,312 @@
+{% comment %}
+  ============================================================
+  Section: Tisso Banner
+  - Announcement bar (editable)
+  - Header: logo, tagline, CTA button (editable)
+  - Hero: background image, heading, description, CTA (editable)
+  - Button hover: color slides in from left, slides out on mouse leave
+  - Font: Jost (Google Fonts)
+  ============================================================
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ── Global reset for this section ── */
+  .tisso-banner *,
+  .tisso-banner *::before,
+  .tisso-banner *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Jost', sans-serif;
+  }
+
+  /* ──────────────────────────────────────
+     Announcement Bar
+  ────────────────────────────────────── */
+  .tisso-announcement {
+    background: #fff;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #111;
+  }
+
+  /* ──────────────────────────────────────
+     Header
+  ────────────────────────────────────── */
+  .tisso-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 50px;
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .tisso-logo {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #111;
+    text-decoration: none;
+  }
+
+  .tisso-tagline {
+    font-size: 14px;
+    color: #111;
+    text-align: center;
+    flex: 1;
+    padding: 0 30px;
+  }
+
+  /* ──────────────────────────────────────
+     Shared Button Styles (slide animation)
+     - ::before pseudo-element slides from left
+     - Reverses on mouse leave
+  ────────────────────────────────────── */
+  .tisso-btn {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 28px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: color 0.35s ease;
+    white-space: nowrap;
+  }
+
+  /* Text and arrow sit above the sliding bg */
+  .tisso-btn .btn-label,
+  .tisso-btn .btn-arrow {
+    position: relative;
+    z-index: 2;
+  }
+
+  .tisso-btn .btn-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .tisso-btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Sliding overlay */
+  .tisso-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.35s ease;
+    z-index: 1;
+  }
+
+  .tisso-btn:hover::before { left: 0; }
+
+  /* Yellow button → hover turns black */
+  .tisso-btn--yellow {
+    background: #f5e642;
+    color: #111;
+  }
+  .tisso-btn--yellow::before { background: #111; }
+  .tisso-btn--yellow:hover   { color: #fff; }
+
+  /* Black button → hover turns yellow */
+  .tisso-btn--black {
+    background: #111;
+    color: #fff;
+  }
+  .tisso-btn--black::before { background: #f5e642; }
+  .tisso-btn--black:hover   { color: #111; }
+
+  /* ──────────────────────────────────────
+     Hero Banner
+  ────────────────────────────────────── */
+  .tisso-hero {
+    position: relative;
+    width: 100%;
+    min-height: 88vh;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center top;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .tisso-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 60px 50px;
+    max-width: 560px;
+  }
+
+  .tisso-hero__heading {
+    font-size: clamp(40px, 5.5vw, 70px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #111;
+    margin-bottom: 22px;
+  }
+
+  .tisso-hero__desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333;
+    margin-bottom: 38px;
+    max-width: 420px;
+  }
+
+  /* ──────────────────────────────────────
+     Mobile
+  ────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .tisso-header {
+      padding: 14px 20px;
+    }
+    .tisso-tagline {
+      display: none;
+    }
+    .tisso-hero {
+      min-height: 100vw;
+      background-position: right center;
+      align-items: center;
+      justify-content: center;
+    }
+    .tisso-hero__content {
+      padding: 30px 20px;
+      text-align: center;
+      max-width: 100%;
+      background: rgba(255, 255, 255, 0.88);
+    }
+    .tisso-hero__desc {
+      max-width: 100%;
+    }
+  }
+</style>
+
+{%- assign bg = section.settings.background_image -%}
+
+<div class="tisso-banner">
+
+  <!-- Announcement Bar -->
+  <div class="tisso-announcement">
+    {{ section.settings.announcement_text }}
+  </div>
+
+  <!-- Header -->
+  <header class="tisso-header">
+    <a href="/" class="tisso-logo">{{ section.settings.logo_text }}</a>
+    <p class="tisso-tagline">{{ section.settings.header_tagline }}</p>
+    <a href="{{ section.settings.header_btn_url }}" class="tisso-btn tisso-btn--yellow">
+      <span class="btn-label">{{ section.settings.header_btn_text }}</span>
+      <span class="btn-arrow">→</span>
+    </a>
+  </header>
+
+  <!-- Hero Banner -->
+  <section
+    class="tisso-hero"
+    {% if bg != blank %}
+      style="background-image: url('{{ bg | img_url: 'master' }}');"
+    {% endif %}
+  >
+    <div class="tisso-hero__content">
+      <h1 class="tisso-hero__heading">{{ section.settings.hero_heading }}</h1>
+      <p class="tisso-hero__desc">{{ section.settings.hero_description }}</p>
+      <a href="{{ section.settings.hero_btn_url }}" class="tisso-btn tisso-btn--black">
+        <span class="btn-label">{{ section.settings.hero_btn_text }}</span>
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Tisso Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "header", "content": "Announcement Bar" },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    { "type": "header", "content": "Header" },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "header_tagline",
+      "label": "Header Tagline",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "header_btn_text",
+      "label": "Header Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "header_btn_url",
+      "label": "Header Button URL"
+    },
+    { "type": "header", "content": "Hero Banner" },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Description",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "text",
+      "id": "hero_btn_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "hero_btn_url",
+      "label": "Button URL"
+    }
+  ],
+  "presets": [
+    { "name": "Tisso Banner" }
+  ]
+}
+{% endschema %}
